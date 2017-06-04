@@ -12,6 +12,7 @@
 
 - (void)dismiss;
 - (void)layoutAlertViewAnimated:(BOOL)animated;
+- (void)focus;
 
 @end
 
@@ -24,6 +25,5 @@
 @property (nonatomic, assign) BOOL needToFocus;
 
 - (void)backgroundPressed;
-- (void)focus;
 
 @end

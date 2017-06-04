@@ -62,6 +62,9 @@
 #pragma mark - Present
 
 - (void)presentOverVC:(UIViewController *)vc alertView:(UIView<DTAlertViewProtocol> *)alertView appearenceAnimation:(DTAlertViewContainerAppearenceType)appearenceAnimation completion:(void (^ __nullable)(void))completion {
+    if (!vc || !alertView) {
+        return;
+    }
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
     alertView.delegate = self;
     self.alertView = alertView;
@@ -166,7 +169,7 @@
                           delay:0
                         options:self.animationOptions
                      animations:^{
-                         self.alertView.alpha = 0.5;
+                         self.alertView.alpha = self.appearenceAnimation == DTAlertViewContainerAppearenceTypeFade ? 0 : 0.5;
                          self.backgroundView.alpha = 0;
                          [self layoutBeforeAppear];
                      }

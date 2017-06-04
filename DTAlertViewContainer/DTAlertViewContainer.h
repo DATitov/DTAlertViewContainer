@@ -14,6 +14,5 @@ FOUNDATION_EXPORT double DTAlertViewContainerVersionNumber;
 //! Project version string for DTAlertViewContainer.
 FOUNDATION_EXPORT const unsigned char DTAlertViewContainerVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <DTAlertViewContainer/PublicHeader.h>
-
+#import "DTAlertViewContainerController.h"
 

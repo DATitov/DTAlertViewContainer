@@ -89,10 +89,10 @@
 		2856AA6B1EE3DF88003979D5 /* DTAlertViewContainer */ = {
 			isa = PBXGroup;
 			children = (
+				2856AA6C1EE3DF88003979D5 /* DTAlertViewContainer.h */,
 				2856AA841EE3E1CF003979D5 /* DTAlertViewContainerProtocols.h */,
 				2856AA851EE3E1CF003979D5 /* DTAlertViewContainerController.h */,
 				2856AA861EE3E1CF003979D5 /* DTAlertViewContainerController.m */,
-				2856AA6C1EE3DF88003979D5 /* DTAlertViewContainer.h */,
 				2856AA6D1EE3DF88003979D5 /* Info.plist */,
 			);
 			path = DTAlertViewContainer;
@@ -454,6 +454,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DTAlertViewContainer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DT.DTAlertViewContainer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -471,9 +472,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = DTAlertViewContainer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = DT.DTAlertViewContainer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
