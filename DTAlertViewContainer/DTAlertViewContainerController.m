@@ -18,10 +18,34 @@
 
 @implementation DTAlertViewContainerController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self initializeProperties];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self initializeProperties];
+    }
+    return self;
+}
+
+- (void)initializeProperties {
+    self.scrollView = [[UIScrollView alloc]init];
+    self.backgroundView = [[UIView alloc]init];
+    self.tapGR = [[UITapGestureRecognizer alloc]init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self setupDefaults];//UIKeyboardWillChangeFrame
+    [self setupDefaults];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
@@ -59,6 +83,17 @@
     self.backgroundView.backgroundColor = [UIColor blueColor];
 }
 
+- (void)setAlertViewContainsTableView:(BOOL)alertViewContainsTableView {
+    _alertViewContainsTableView = alertViewContainsTableView;
+    if (alertViewContainsTableView && [self.scrollView.subviews containsObject:self.alertView]) {
+        [self.alertView removeFromSuperview];
+        [self.view addSubview:self.alertView];
+    }else if (!alertViewContainsTableView && [self.view.subviews containsObject:self.alertView]) {
+        [self.alertView removeFromSuperview];
+        [self.scrollView addSubview:self.alertView];
+    }
+}
+
 #pragma mark - Present
 
 - (void)presentOverVC:(UIViewController *)vc alertView:(UIView<DTAlertViewProtocol> *)alertView appearenceAnimation:(DTAlertViewContainerAppearenceType)appearenceAnimation completion:(void (^ __nullable)(void))completion {
@@ -68,7 +103,11 @@
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
     alertView.delegate = self;
     self.alertView = alertView;
-    [self.scrollView addSubview:alertView];
+    if (self.alertViewContainsTableView) {
+        [self.view addSubview:alertView];
+    }else{
+        [self.scrollView addSubview:alertView];
+    }
     self.appearenceAnimation = appearenceAnimation;
     [vc presentViewController:self animated:false completion:completion];
 }
@@ -76,9 +115,6 @@
 #pragma mark - Setup UI
 
 - (void)setupUI {
-    self.scrollView = [[UIScrollView alloc]init];
-    self.backgroundView = [[UIView alloc]init];
-    self.tapGR = [[UITapGestureRecognizer alloc]init];
     [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.alertView];
