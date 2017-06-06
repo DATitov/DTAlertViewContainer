@@ -29,8 +29,9 @@ typedef NS_ENUM(NSUInteger, DTAlertViewContainerAppearenceType) {
 @property (nonatomic, assign) UIViewAnimationOptions animationOptions;
 @property (nonatomic, assign) BOOL alertViewContainsTableView;
 
+@property (nonatomic, copy, nullable) void (^dismissAction)(void);
+
 
 - (void)presentOverVC:(UIViewController *)vc alertView:(UIView<DTAlertViewProtocol> *)alertView appearenceAnimation:(DTAlertViewContainerAppearenceType)appearenceAnimation completion:(void (^ __nullable)(void))completion;
-//- (void)setAlertViewContainsTableView:(BOOL)alertViewContainsTableView;
 
 @end

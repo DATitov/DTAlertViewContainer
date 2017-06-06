@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 @property (nonatomic, assign) CGRect keyboardFrame;
+@property (nonatomic, assign) BOOL reactObKeyboardAppearence;
 
 @end
 
@@ -40,13 +41,14 @@
     self.scrollView = [[UIScrollView alloc]init];
     self.backgroundView = [[UIView alloc]init];
     self.tapGR = [[UITapGestureRecognizer alloc]init];
+    self.reactObKeyboardAppearence = YES;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
     [self setupDefaults];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -210,6 +212,8 @@
                          [self layoutBeforeAppear];
                      }
                      completion:^(BOOL finished) {
+                         if (self.dismissAction)
+                             self.dismissAction();
                          [self dismissViewControllerAnimated:NO completion:nil];
                      }];
 }
@@ -231,7 +235,6 @@
 
 - (void)focus {
     if (!self.alertView.needToFocus) { return; }
-    //CGFloat topSpace = 5;
     CGFloat bottomSpace = 5;
     CGFloat maxYCoordToFocus = self.alertView.frame.origin.y + CGRectGetMaxY(self.alertView.frameToFocus) + bottomSpace;
     CGFloat spaceWithNoKeyboard = self.view.frame.size.height - [self keyboardHeightInScreen];
@@ -239,10 +242,18 @@
         [self.scrollView setContentOffset:CGPointMake(0, maxYCoordToFocus - spaceWithNoKeyboard) animated:NO];
 }
 
+- (void)performTextInputSwitch:(void (^)(void))switchAction {
+    self.reactObKeyboardAppearence = NO;
+    if (switchAction)
+        switchAction();
+    self.reactObKeyboardAppearence = YES;
+    [self layoutViews];
+}
+
 #pragma mark - Observe Notifications
 
-- (void)keyboardWillAppear:(NSNotification *)notification {
-    if (!notification.userInfo[UIKeyboardFrameEndUserInfoKey]) {
+- (void)keyboardWillChangeFrame:(NSNotification *)notification {
+    if (!self.reactObKeyboardAppearence || !notification.userInfo[UIKeyboardFrameEndUserInfoKey]) {
         return;
     }
     CGRect destinationFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];

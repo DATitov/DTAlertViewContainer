@@ -13,6 +13,7 @@
 - (void)dismiss;
 - (void)layoutAlertViewAnimated:(BOOL)animated;
 - (void)focus;
+- (void)performTextInputSwitch:(void (^)(void))switchAction;
 
 @end
 
