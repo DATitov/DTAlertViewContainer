@@ -13,6 +13,7 @@ DTAlertViewContainer do the most routine work related to presenting Alerts
 - Present big alerts. DTAlertViewContainer adding AlertView on a `UIScrollView` so does not metter what height your AlerView has
 - Input text with yout AlertView. Sometimes if user taps on text field keyboard covers it. This situation causes discomfort. DTAlertViewContainer observes keyboard appearence so where is no need to worry about yout text field being visible
 - Focus on space area. Even if you have implemented keyboard observation where is a need to focus on text field. DTAlertViewContainer will scroll to the frame you've pointed to focus
+- Bind AlerView to Top, Bottom or Centre. This gives you ability to present AlertView as a Notification, Action Shit or an native Alert
 
 ---
 ## Installation
