@@ -8,7 +8,7 @@
 
 #import "DTAlertViewContainerController.h"
 
-@interface DTAlertViewContainerController() <DTAlertViewDelegate>
+@interface DTAlertViewContainerController() <DTAlertViewContainerProtocol>
 
 @property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGR;
@@ -42,6 +42,7 @@
     self.backgroundView = [[UIView alloc]init];
     self.tapGR = [[UITapGestureRecognizer alloc]init];
     self.reactObKeyboardAppearence = YES;
+    self.positionBinding = DTAlertViewPositionBindingCentre;
 }
 
 - (void)viewDidLoad {
@@ -127,26 +128,63 @@
 #pragma mark - Layout
 
 - (void)layoutViews {
-    self.scrollView.frame = self.view.bounds;
-    self.backgroundView.frame = self.view.bounds;
+    CGRect selfFrame = ^CGRect(void) {/*
+        if (CGSizeEqualToSize(destinationSize, CGSizeZero)) {*/
+            return self.view.frame;
+        /*}else{
+            return CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y,
+                              destinationSize.width, destinationSize.height);
+        }*/
+    }();
+    self.scrollView.frame = CGRectMake(0, 0, selfFrame.size.width, selfFrame.size.height);
+    self.backgroundView.frame = CGRectMake(0, 0, selfFrame.size.width, selfFrame.size.height);
     CGFloat keyboardHeightInScreen = [self keyboardHeightInScreen];
     CGFloat viewHeight = self.alertView.requiredHeight;
     CGFloat contentHeight = ^CGFloat(void) {
-        if ([UIScreen mainScreen].bounds.size.height - self.minimumVerticalOffset * 2 - viewHeight - keyboardHeightInScreen < 0) {
+        if (self.view.frame.size.height - self.minimumVerticalOffset * 2 - viewHeight - keyboardHeightInScreen < 0) {
             return self.minimumVerticalOffset * 2 + viewHeight + keyboardHeightInScreen;
         }else{
-            return [UIScreen mainScreen].bounds.size.height + 1;
+            return selfFrame.size.height + 1;
         }
     }();
+    CGFloat contentWidth = selfFrame.size.width;
     CGFloat alertYOrigin = ^CGFloat(void) {
-        if (keyboardHeightInScreen > 0) {
-            return (contentHeight - viewHeight - keyboardHeightInScreen) / 2;
-        }else{
-            return (contentHeight - viewHeight) / 2;
+        switch (self.positionBinding) {
+            case DTAlertViewPositionBindingTop:
+                return 0;
+            case DTAlertViewPositionBindingBottom:
+                if (keyboardHeightInScreen > 0) {
+                    return self.keyboardFrame.origin.y - viewHeight;
+                }else{
+                    return contentHeight - viewHeight;
+                }
+            default:
+                if (keyboardHeightInScreen > 0) {
+                    return (contentHeight - viewHeight - keyboardHeightInScreen) / 2;
+                }else{
+                    return (contentHeight - viewHeight) / 2;
+                }
         }
     }();
-    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, contentHeight);
-    self.alertView.frame = CGRectMake(self.horisontalOffset, alertYOrigin, self.view.frame.size.width - 2 * self.horisontalOffset, viewHeight);
+    CGFloat alertXOrigin = ^CGFloat(void) {
+        switch (self.positionBinding) {
+            case DTAlertViewPositionBindingLeft:
+                return 0;
+            default:
+                return self.horisontalOffset;
+        }
+    }();
+    CGFloat alertWidth = ^CGFloat(void) {
+        switch (self.positionBinding) {
+            case DTAlertViewPositionBindingLeft:
+            case DTAlertViewPositionBindingRight:
+                return contentWidth - self.horisontalOffset;
+            default:
+                return contentWidth - self.horisontalOffset * 2;
+        }
+    }();
+    self.scrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+    self.alertView.frame = CGRectMake(alertXOrigin, alertYOrigin, alertWidth, viewHeight);
     [self focus];
 }
 
@@ -287,7 +325,8 @@
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [self layoutViews];
     }
-                                 completion:nil];
+                                 completion:nil
+];
 }
 
 @end

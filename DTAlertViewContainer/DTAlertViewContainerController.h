@@ -17,11 +17,20 @@ typedef NS_ENUM(NSUInteger, DTAlertViewContainerAppearenceType) {
     DTAlertViewContainerAppearenceTypeFade,
 };
 
+typedef NS_ENUM(NSUInteger, DTAlertViewPositionBinding) {
+    DTAlertViewPositionBindingCentre,
+    DTAlertViewPositionBindingTop,
+    DTAlertViewPositionBindingBottom,
+    DTAlertViewPositionBindingLeft,
+    DTAlertViewPositionBindingRight
+};
+
 @interface DTAlertViewContainerController : UIViewController
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView<DTAlertViewProtocol> *alertView;
 @property (nonatomic, assign) DTAlertViewContainerAppearenceType appearenceAnimation;
+@property (nonatomic, assign) DTAlertViewPositionBinding positionBinding;
 
 @property (nonatomic, assign) CGFloat minimumVerticalOffset;
 @property (nonatomic, assign) CGFloat horisontalOffset;

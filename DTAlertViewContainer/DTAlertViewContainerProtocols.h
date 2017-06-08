@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol DTAlertViewDelegate <NSObject>
+@protocol DTAlertViewContainerProtocol <NSObject>
 
 - (void)dismiss;
 - (void)layoutAlertViewAnimated:(BOOL)animated;
@@ -19,7 +19,7 @@
 
 @protocol DTAlertViewProtocol <NSObject>
 
-@property (nonatomic, weak) id<DTAlertViewDelegate> delegate;
+@property (nonatomic, weak) id<DTAlertViewContainerProtocol> delegate;
 
 @property (nonatomic, assign) CGFloat requiredHeight;
 @property (nonatomic, assign) CGRect frameToFocus;
