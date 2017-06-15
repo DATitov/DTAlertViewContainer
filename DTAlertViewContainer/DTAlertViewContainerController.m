@@ -24,6 +24,7 @@
     self = [super init];
     if (self) {
         [self initializeProperties];
+        [self setupDefaults];
     }
     return self;
 }
@@ -48,7 +49,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    [self setupDefaults];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
@@ -83,7 +83,7 @@
     self.horisontalOffset = 15;
     self.appearenceDuration = 0.4;
     self.animationOptions = UIViewAnimationOptionCurveEaseInOut;
-    self.backgroundView.backgroundColor = [UIColor blueColor];
+    //self.backgroundView.backgroundColor = [UIColor blueColor];
 }
 
 - (void)setAlertViewContainsTableView:(BOOL)alertViewContainsTableView {
@@ -95,6 +95,11 @@
         [self.alertView removeFromSuperview];
         [self.scrollView addSubview:self.alertView];
     }
+}
+
+- (void)setContainerBackgroundColor:(UIColor *)containerBackgroundColor {
+    _containerBackgroundColor = containerBackgroundColor;
+    self.backgroundView.backgroundColor = containerBackgroundColor;
 }
 
 #pragma mark - Present

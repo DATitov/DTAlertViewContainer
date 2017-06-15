@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, DTAlertViewPositionBinding) {
 @property (nonatomic, strong) UIView<DTAlertViewProtocol> *alertView;
 @property (nonatomic, assign) DTAlertViewContainerAppearenceType appearenceAnimation;
 @property (nonatomic, assign) DTAlertViewPositionBinding positionBinding;
+@property (nonatomic, strong) UIColor *containerBackgroundColor;
 
 @property (nonatomic, assign) CGFloat minimumVerticalOffset;
 @property (nonatomic, assign) CGFloat horisontalOffset;
