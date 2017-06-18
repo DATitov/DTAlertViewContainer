@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong, readwrite) UIScrollView *scrollView;
 @property (nonatomic, strong, readwrite) UIView<DTAlertViewProtocol> *alertView;
-//@property (nonatomic, strong, readwrite) UIVisualEffectView *backgroundView;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 @property (nonatomic, assign) CGRect keyboardFrame;
@@ -98,11 +97,6 @@
         [self.alertView removeFromSuperview];
         [self.scrollView addSubview:self.alertView];
     }
-}
-
-- (void)setContainerBackgroundColor:(UIColor *)containerBackgroundColor {
-    _containerBackgroundColor = containerBackgroundColor;
-    self.backgroundView.backgroundColor = containerBackgroundColor;
 }
 
 #pragma mark - Present
