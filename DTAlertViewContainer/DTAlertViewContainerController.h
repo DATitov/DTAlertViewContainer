@@ -27,21 +27,26 @@ typedef NS_ENUM(NSUInteger, DTAlertViewPositionBinding) {
 
 @interface DTAlertViewContainerController : UIViewController
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView<DTAlertViewProtocol> *alertView;
+@property (nonatomic, strong, readonly, nonnull) UIScrollView *scrollView;
+@property (nonatomic, strong, readonly, nonnull) UIView<DTAlertViewProtocol> *alertView;
+@property (nonatomic, strong, nonnull) UIVisualEffectView *backgroundView;
 @property (nonatomic, assign) DTAlertViewContainerAppearenceType appearenceAnimation;
 @property (nonatomic, assign) DTAlertViewPositionBinding positionBinding;
-@property (nonatomic, strong) UIColor *containerBackgroundColor;
+@property (nonatomic, strong, nonnull) UIColor *containerBackgroundColor;
 
 @property (nonatomic, assign) CGFloat minimumVerticalOffset;
 @property (nonatomic, assign) CGFloat horisontalOffset;
 @property (nonatomic, assign) CGFloat appearenceDuration;
 @property (nonatomic, assign) UIViewAnimationOptions animationOptions;
 @property (nonatomic, assign) BOOL alertViewContainsTableView;
+@property (nonatomic, assign) CGFloat backgroundAlpha;
 
 @property (nonatomic, copy, nullable) void (^dismissAction)(void);
 
 
-- (void)presentOverVC:(UIViewController *)vc alertView:(UIView<DTAlertViewProtocol> *)alertView appearenceAnimation:(DTAlertViewContainerAppearenceType)appearenceAnimation completion:(void (^ __nullable)(void))completion;
+- (void)presentOverVC:(nonnull UIViewController *)vc
+            alertView:(nonnull UIView<DTAlertViewProtocol> *)alertView
+  appearenceAnimation:(DTAlertViewContainerAppearenceType)appearenceAnimation
+           completion:(void (^ __nullable)(void))completion;
 
 @end

@@ -6,7 +6,7 @@ s.name = "DTAlertViewContainer"
 s.summary = "DTAlertViewContainer is an animated, flexible container to present any View as AlertView."
 s.requires_arc = true
 
-s.version = "0.1.6"
+s.version = "0.1.7"
 s.license = { :type => "MIT", :file => "LICENSE" }
 s.author = { "Dmitriy Titov" => "dmitriytitovwm@gmail.com" }
 s.homepage = "https://github.com/Quott/DTAlertViewContainer"

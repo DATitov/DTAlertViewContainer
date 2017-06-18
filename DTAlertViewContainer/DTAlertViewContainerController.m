@@ -10,7 +10,10 @@
 
 @interface DTAlertViewContainerController() <DTAlertViewContainerProtocol>
 
-@property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong, readwrite) UIScrollView *scrollView;
+@property (nonatomic, strong, readwrite) UIView<DTAlertViewProtocol> *alertView;
+//@property (nonatomic, strong, readwrite) UIVisualEffectView *backgroundView;
+
 @property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 @property (nonatomic, assign) CGRect keyboardFrame;
 @property (nonatomic, assign) BOOL reactObKeyboardAppearence;
@@ -19,8 +22,7 @@
 
 @implementation DTAlertViewContainerController
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self initializeProperties];
@@ -40,10 +42,11 @@
 
 - (void)initializeProperties {
     self.scrollView = [[UIScrollView alloc]init];
-    self.backgroundView = [[UIView alloc]init];
     self.tapGR = [[UITapGestureRecognizer alloc]init];
     self.reactObKeyboardAppearence = YES;
     self.positionBinding = DTAlertViewPositionBindingCentre;
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
 }
 
 - (void)viewDidLoad {
@@ -65,7 +68,7 @@
                           delay:0
                         options:self.animationOptions
                      animations:^{
-                         self.backgroundView.alpha = 0.5;
+                         self.backgroundView.alpha = self.backgroundAlpha;
                          self.alertView.alpha = 1;
                          [self layoutViews];
                      }
@@ -83,7 +86,7 @@
     self.horisontalOffset = 15;
     self.appearenceDuration = 0.4;
     self.animationOptions = UIViewAnimationOptionCurveEaseInOut;
-    //self.backgroundView.backgroundColor = [UIColor blueColor];
+    self.backgroundAlpha = 0.95;
 }
 
 - (void)setAlertViewContainsTableView:(BOOL)alertViewContainsTableView {
@@ -123,11 +126,20 @@
 #pragma mark - Setup UI
 
 - (void)setupUI {
-    [self.view addSubview:self.backgroundView];
+    [self createBackground];
+    //[self.view addSubview:self.backgroundView];
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.alertView];
     [self.scrollView addGestureRecognizer:self.tapGR];
     [self.tapGR addTarget:self action:@selector(backgroundPressed)];
+}
+
+- (void)createBackground {
+    self.backgroundView.frame = self.view.bounds;
+    self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.backgroundView.alpha = 0.95;
+    
+    [self.view addSubview:self.backgroundView];
 }
 
 #pragma mark - Layout
