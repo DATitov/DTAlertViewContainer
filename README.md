@@ -20,7 +20,8 @@ DTAlertViewContainer do the most routine work related to presenting Alerts
 
 ![](https://github.com/Quott/DTAlertViewContainerDemo/blob/master/DemoRecords/ActionSheetDemo.gif?raw=true)  ![](https://github.com/Quott/DTAlertViewContainerDemo/blob/master/DemoRecords/NotificationDemo.gif?raw=true) ![](https://github.com/Quott/DTAlertViewContainerDemo/blob/master/DemoRecords/LayoutDemo.gif?raw=true)
 
-[Demo](https://github.com/Quott/DTAlertViewContainerDemo)
+[Demo app](https://github.com/Quott/DTAlertViewContainerDemo)
+
 ---
 ## Installation
 Using CocoaPods:
